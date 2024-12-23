@@ -1,5 +1,10 @@
 #include"class.h"
 
+// 默认开业时间为8点，营业时长为480分
+int OpeningHour = 8;
+int OpeningMintue = 0;
+int MAXTIME = 480;
+
 client::client(string name, int* phone, bool kind, string id, int arrtime, int reqtime)
 	: Name(name), Kind(kind), Id(id), Arrtime(arrtime), Reqtime(reqtime) {
 	for (int i = 0; i < 11; i++) {
@@ -44,8 +49,24 @@ node::node(const client& c) {
 	C = c;
 }
 
+void queue::init() {
+	node* p = Head,  *pNext = Head->Next;
+	while (p != nullptr) {
+		free(p);
+		p = pNext;
+		pNext = p->Next;
+	}
+	Head = nullptr;
+	Tail = nullptr;
+}
+
 bool queue::empty() {
-	return Tail - Head;
+	if (Tail - Head == 0) {
+		return true;
+	}
+	else {
+		return false;
+	}
 }
 
 void queue::enqueue(const client& c) {
@@ -55,7 +76,8 @@ void queue::enqueue(const client& c) {
 		Tail = &newnode;
 	}
 	else {
-		node newnode(c, Tail->Next);
+		node newnode(c);
+		Tail->Next = &newnode;
 		Tail = &newnode;
 	}
 }

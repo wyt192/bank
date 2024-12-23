@@ -2,8 +2,11 @@
 #define CLASS_H
 
 #include <iostream>
-
 using namespace std;
+
+extern int OpeningHour;
+extern int OpeningMintue;
+extern int MAXTIME;
 
 class client {
 private:
@@ -50,6 +53,7 @@ public:
 	node* Tail = nullptr;
 	queue(){}
 	~queue(){}
+	void init();
 	bool empty();
 	void enqueue(const client& c);
 	void dequeue(client& c);
